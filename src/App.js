@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 
 import Layout from './Components/Layout';
 import Login from './Components/Login';
+import PrivateRoute from './Components/PrivateRoute';
 
 import {
 	Route,
-	Redirect,
 	BrowserRouter as Router,
 	Switch
 } from "react-router-dom";
@@ -36,26 +36,6 @@ axios.interceptors.response.use((response) => {
 	return Promise.reject(error);
 });
 
-function PrivateRoute ({ children, ...rest }){
-	return (
-		<Route
-			{...rest}
-				render={({ location }) =>
-				localStorage.getItem("token") ? (
-					children
-				) : (
-					<Redirect
-						to={{
-							pathname: "/login",
-							state: { from: location }
-						}}
-					/>
-				)
-			}
-		/>
-	);
-}
-
 class App extends Component {
 	constructor(props){
 		super(props);
@@ -73,15 +53,9 @@ class App extends Component {
 						<Route path="/login">
 							<Login />
 						</Route>
-						<PrivateRoute path="/operating">
+						<PrivateRoute path="*">
 							<Layout/>
 						</PrivateRoute>
-						<Route exact path="/">
-							<Redirect exact from="/" to="operating" />
-						</Route>
-						<Route path="*">
-							<Redirect from="/" to="operating" />
-						</Route>
 					</Switch>          
 				</Router>
 			</div>
