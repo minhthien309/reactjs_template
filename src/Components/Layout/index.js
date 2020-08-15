@@ -42,7 +42,7 @@ class LayoutComponent extends React.Component {
 		return (
 			<Router>
 				<Switch>
-					<Login/>
+					<Route path="/login"><Login/></Route>
 					<Layout>
 						<Sider 
 							trigger={null} 
